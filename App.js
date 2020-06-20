@@ -1,232 +1,33 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  Button,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
+import {Image} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
-const CustomHeader = ({title, isHome, navigator}) => {
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        height: 50,
-      }}>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-        }}>
-        {isHome ? (
-          <TouchableOpacity onPress={() => navigator.openDrawer()}>
-            <Image
-              style={{
-                width: 30,
-                height: 30,
-                resizeMode: 'contain',
-                marginLeft: 5,
-              }}
-              source={require('./src/assets/images/menu.png')}
-            />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={{flexDirection: 'row', alignItems: 'center'}}
-            onPress={() => navigator.goBack()}>
-            <Image
-              style={{
-                width: 30,
-                height: 30,
-                resizeMode: 'contain',
-                marginLeft: 5,
-              }}
-              source={require('./src/assets/images/back.png')}
-            />
-            <Text>Back</Text>
-          </TouchableOpacity>
-        )}
-      </View>
-      <View
-        style={{
-          flex: 1.5,
-          justifyContent: 'center',
-        }}>
-        <Text style={{textAlign: 'center'}}>{title}</Text>
-      </View>
-      <View style={{flex: 1}}>
-        <Text />
-      </View>
-    </View>
-  );
-};
+import {IMAGE} from './src/constants/Image';
+
+import {
+  HomeScreen,
+  HomeScreenDetail,
+  SettingsScreen,
+  SettingsScreenDetail,
+} from './src/tabs';
+import {LoginScreen, RegisterScreen} from './src/auth';
+import {NotificationsScreen} from './src/drawer';
+import {CustomDrawerContent} from './src/shared';
 
 const navOptionsHandler = () => ({
   headerShown: false,
 });
-
-const HomeScreen = ({navigation}) => {
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <CustomHeader
-        title={'Home Screen'}
-        isHome={true}
-        navigator={navigation}
-      />
-      <View style={styles.container}>
-        <Text>Home Screen</Text>
-        <TouchableOpacity
-          style={{marginTop: 20}}
-          onPress={() => {
-            navigation.navigate('HomeDetail');
-          }}>
-          <Text>Go to Home Detail</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
-};
-
-const HomeScreenDetail = ({navigation}) => {
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <CustomHeader title={'Home Detail Screen'} navigator={navigation} />
-      <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          <Text>Back to Home Screen</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
-};
-
-const SettingsScreen = ({navigation}) => {
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <CustomHeader
-        title={'Settings Screen'}
-        isHome={true}
-        navigator={navigation}
-      />
-      <View style={styles.container}>
-        <Text>Settings Screen</Text>
-        <TouchableOpacity
-          style={{marginTop: 20}}
-          onPress={() => {
-            navigation.navigate('SettingsDetail');
-          }}>
-          <Text>Go to Settings Detail</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
-};
-
-const SettingsScreenDetail = ({navigation}) => {
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <CustomHeader title={'Settings Screen'} navigator={navigation} />
-      <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          <Text>Back to Settings Screen</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
-};
 
 const Tab = createBottomTabNavigator();
 const StackHome = createStackNavigator();
 const StackSettings = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const AppStack = createStackNavigator();
-
-const drawerContentHandler = props => (
-  <SafeAreaView style={{flex: 1}}>
-    <ScrollView style={{marginLeft: 5}}>
-      <View
-        style={{height: 150, justifyContent: 'center', alignItems: 'center'}}>
-        <Image
-          source={require('./src/assets/images/user.png')}
-          style={{width: 120, height: 120, borderRadius: 60}}
-          resizeMode="contain"
-        />
-      </View>
-      <TouchableOpacity
-        style={{marginTop: 20}}
-        onPress={() => props.navigation.navigate('HomeTab')}>
-        <Text>Menu tab</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{marginTop: 20}}
-        onPress={() => props.navigation.navigate('NotificationsTab')}>
-        <Text>Notifications</Text>
-      </TouchableOpacity>
-    </ScrollView>
-  </SafeAreaView>
-);
-
-function NotificationsScreen({navigation}) {
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <CustomHeader title={'Notifications Screen'} navigator={navigation} />
-      <View style={styles.container}>
-        <Text>Notifications Screen</Text>
-      </View>
-    </SafeAreaView>
-  );
-}
-
-function RegisterScreen({navigation}) {
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <CustomHeader title={'Register Screen'} navigator={navigation} />
-      <View style={styles.container}>
-        <Text>Register Screen</Text>
-      </View>
-    </SafeAreaView>
-  );
-}
-
-const LoginScreen = ({navigation}) => {
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={styles.container}>
-        <Text>Login Screen</Text>
-        <TouchableOpacity
-          style={{marginTop: 20}}
-          onPress={() => {
-            navigation.navigate('AppStart');
-          }}>
-          <Text>Login start</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{marginTop: 20}}
-          onPress={() => {
-            navigation.navigate('Register');
-          }}>
-          <Text>Register</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
-};
 
 const HomeScreenStack = () => {
   return (
@@ -270,13 +71,9 @@ const TabNavigatior = () => {
           let iconName;
 
           if (route.name === 'Home') {
-            iconName = focused
-              ? require('./src/assets/images/home.png')
-              : require('./src/assets/images/home-o.png');
+            iconName = focused ? IMAGE.ICON_HOME : IMAGE.ICON_HOME_O;
           } else if (route.name === 'Settings') {
-            iconName = focused
-              ? require('./src/assets/images/settings.png')
-              : require('./src/assets/images/settings-o.png');
+            iconName = focused ? IMAGE.ICON_SETTINGS : IMAGE.ICON_SETTINGS_O;
           }
 
           // You can return any component that you like here!
@@ -303,7 +100,7 @@ const AppDrawerNavigator = () => {
   return (
     <Drawer.Navigator
       initialRouteName="HomeTab"
-      drawerContent={props => drawerContentHandler(props)}>
+      drawerContent={props => CustomDrawerContent(props)}>
       <Drawer.Screen name="HomeTab" component={TabNavigatior} />
       <Drawer.Screen name="NotificationsTab" component={NotificationsScreen} />
     </Drawer.Navigator>
@@ -313,7 +110,7 @@ const AppDrawerNavigator = () => {
 /*
 <Drawer.Navigator
   initialRouteName="HomeTab"
-  drawerContent={props => drawerContentHandler(props)}>
+  drawerContent={props => CustomDrawerContent(props)}>
   <Drawer.Screen name="HomeTab" component={TabNavigatior} />
   <Drawer.Screen
     name="NotificationsTab"
@@ -345,13 +142,5 @@ const App = () => {
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default App;
